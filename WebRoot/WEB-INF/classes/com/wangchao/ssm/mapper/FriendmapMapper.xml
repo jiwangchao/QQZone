@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangchao.ssm.mapper.FriendmapMapper">
+	<sql id="Base_query_List">
+		friendmapId, friendId, verifyInfo,status, addTime, beiZhu,lastVisitTime,allowVisited,hideDynamic,careStatus,gNo
+	</sql>
+	<sql id="query_friendId">
+		friendId,beiZhu
+	</sql>
+	<!-- 查询我的好友  、发送给我的好友添加请求 -->
+	<select id="findMyFriend" parameterType="int"
+		resultType="com.wangchao.ssm.pojo.Friendmap">
+		SELECT
+		<include refid="Base_query_List" />
+		from friendmap f
+		where f.userId=#{userId}
+	</select>
+	<!-- 更改好友权限：访问空间，动态屏蔽,特别关心 -->
+	<update id="updateFriendRight" parameterType="java.util.HashMap">
+		update friendmap f
+		set f.allowVisited=#{allowvVisited}
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</update>
+	<update id="updateFriendDynamic" parameterType="java.util.HashMap">
+		update friendmap f
+		set f.hideDynamic=#{hideDynamic}
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</update>
+	<update id="updateCareStatus" parameterType="java.util.HashMap">
+		update friendmap f
+		set f.careStatus=#{careStatus}
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</update>
+	<!-- 查找数据库中是否已经添加过该好友 -->
+	<select id="findVerifyfriend" parameterType="java.util.HashMap" resultType="com.wangchao.ssm.pojo.Friendmap">
+		select 
+		friendmapId,status
+		from friendmap f
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</select>
+	<!-- 添加好友 -->
+	<insert id="addFriend" parameterType="com.wangchao.ssm.pojo.Friendmap">
+		<selectKey keyProperty="friendmapId" resultType="int" order="AFTER">
+ 			select LAST_INSERT_ID()
+ 		</selectKey>
+		insert into friendmap (userId,friendId,verifyInfo,status,addTime,beiZhu)
+		values (#{userId},#{friendId},#{verifyInfo},#{status},#{addTime},#{beiZhu})
+		
+	</insert>
+	<!-- 查看好友验证信息 -->
+	<select id="viewFriendVerifyInfo" parameterType="com.wangchao.ssm.pojo.Friendmap" resultType="com.wangchao.ssm.pojo.Friendmap">
+		select 
+		<include refid="Base_query_List" />
+		from friendmap f
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</select>
+	<!-- 处理好友添加请求-->
+	<update id="updateFriendRequest" parameterType="com.wangchao.ssm.pojo.Friendmap">
+		update friendmap f
+		set f.status=#{status}
+		<if test="beiZhu != null">
+			,f.beiZhu=#{beiZhu}
+		</if>
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</update>
+	<!-- 查询好友所在分组 -->
+	<select id="queryFriendInGroup" resultType="java.lang.String">
+		select f.gNo
+		from friendmap f
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</select>
+	<!-- 移动好友分组位置 -->
+	<update id="updateFriendInGroup" parameterType="com.wangchao.ssm.pojo.Friendmap">
+		update friendmap f
+		set f.gNo=#{gNo}
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</update>
+	<!-- 修改好友备注 -->
+	<update id="updateFriendBeiZhu" parameterType="com.wangchao.ssm.pojo.Friendmap">
+		update friendmap f
+		set f.beiZhu=#{beiZhu}
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</update>
+	<!-- 删除好友 -->
+	<delete id="deleteFriend" parameterType="com.wangchao.ssm.pojo.Friendmap">
+		delete from friendmap
+		where userId=#{userId} and friendId=#{friendId}
+	</delete>
+	<!-- 查询好友设置 -->
+	<select id="queryFriendSetting" parameterType="com.wangchao.ssm.pojo.Friendmap" resultType="com.wangchao.ssm.pojo.Friendmap">
+		select 
+		<include refid="Base_query_List" />
+		from friendmap f
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</select>
+	<!-- 更新好友上次访问时间 -->
+	<update id="updateFriendLastVisitTime" parameterType="com.wangchao.ssm.pojo.Friendmap">
+		update friendmap f
+		set f.lastVisitTime=#{lastVisitTime}
+		where f.userId=#{userId} and f.friendId=#{friendId}
+	</update>
+</mapper>

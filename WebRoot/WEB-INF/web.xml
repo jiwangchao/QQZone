@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>springmvc_mybatis</display-name>
+  
+  <!-- 加载spring容器，扫描加载spring配置文件 -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/classes/spring/applicationContext-*.xml</param-value>
+  </context-param>
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <!-- springmvc前端控制器 -->
+  <servlet>
+  	<servlet-name>springmvc</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<!-- contextConfigLocation配置springmvc加载的配置文件（配置处理器映射，适配器等）
+  		如果不配置contextConfigLocation，则默认加载的是/WEB-INF/servlet名称-servlet.xml(如springmvc-servlet.xml)
+  	 -->
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>classpath:spring/springmvc.xml</param-value>
+  	</init-param>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>springmvc</servlet-name>
+  	<!-- 
+  		第一种：*.action 访问以action结尾，由DispatchServlet进行解析
+  		第二种:/,所有访问的地址都由DispatchServlet进行解析，对于静态文件的解析需要配置不让DispatchServlet进行解析
+  				使用此种方式可以实现RESTful风格的URL 在springmvc配置文件中 配置 <mvc:default-servlet-handler/>
+  		注意：/*  不能用这种方式进行配置，使用这种配置方式仍然会用DispatchServlet解析jsp地址，但不能根据jsp地址找到handler，会报错
+  	 -->
+  	<url-pattern>*.action</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 配置请求过滤器，编码格式设为UTF-8，避免中文乱码 -->
+  <filter>
+  	<filter-name>springUtf8Encoding</filter-name>
+  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  	<init-param>
+  		<param-name>encoding</param-name>
+  		<param-value>UTF-8</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>forceEncoding</param-name>
+  		<param-value>true</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>springUtf8Encoding</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+</web-app>

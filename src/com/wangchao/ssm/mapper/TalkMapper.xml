@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangchao.ssm.mapper.TalkMapper">
+
+	<sql id="Base_query">
+		talkId, userId, talkTime, talkContent, talkPic
+	</sql>
+	<sql id="find_talk_where">
+		userId=#{userId}
+	</sql>
+	
+	<!-- 查询my说说list -->
+	<select id="queryMyTalkList" parameterType="com.wangchao.ssm.pojo.User"
+		resultType="com.wangchao.ssm.pojo.Talk">
+		SELECT
+		<include refid="Base_query" />
+		from talk t
+		where t.userId = #{userId}
+		order by t.talkTime desc
+	</select>
+	<!-- 添加一条说说 -->
+	<insert id="addOneTalk" parameterType="com.wangchao.ssm.pojo.Talk" >
+		<selectKey keyProperty="talkId" resultType="int" order="AFTER">
+ 			select LAST_INSERT_ID()
+ 		</selectKey>
+		insert into talk (userId, talkTime, talkContent, talkPic)
+		values
+		(#{userId},#{talkTime},#{talkContent},#{talkPic});
+	</insert>
+	<!-- 查询我和我的好友的说说list -->
+	<select id="queryAllTalkList" parameterType="com.wangchao.ssm.pojo.User"
+		resultType="com.wangchao.ssm.pojo.Talk">
+		
+		SELECT 
+		u.userName,t.talkId, t.talkTime, t.talkContent, t.talkPic,t.userId
+		from talk t,`user` u
+		where t.userId = #{userId} and u.userId=t.userId
+		UNION ALL
+		SELECT 
+		u.userName,t.talkId, t.talkTime, t.talkContent, t.talkPic,t.userId
+		from talk t,`user` u
+		where u.userId=t.userId and t.userId IN (
+			SELECT f.friendId from friendmap f
+			where f.userId = #{userId} 
+				AND f.status=1
+		)
+		ORDER BY talkTime DESC
+		<!-- LIMIT startIndex,endIndex -->
+	</select>
+</mapper>

@@ -1,0 +1,88 @@
+
+#friendbody{
+	width: 1000px;
+	height:1000px;
+	color: white;
+	margin-left: 180px;
+	background: url(../img/menu_bg3.png); 
+}
+
+#friendMenu{
+	/* border-bottom: 1px solid royalblue; */
+	height: 50px;
+	line-height: 50px;
+	padding-left: 0px;
+}
+#friendMenu ul{
+	padding: 0px;
+}
+#friendMenu ul li{
+	/* border: 2px solid red; */
+	float: left;
+	width: 200px;
+	height:50px;
+	line-height:50px;
+	list-style: none;
+	cursor: pointer;
+	background: url(../img/menu_bg3.png);
+	/* border-bottom: 1px solid royalblue; */
+	padding: 0px 20px;
+	/* margin-right: 20px; */
+	text-align: center;
+}
+#friendMenu ul li a{
+	text-decoration: none;
+	color: white;
+}
+#friendMenu ul li.on{
+	border-top: 1px solid #D58512;
+	/* border-bottom: none; */
+	background-color: #F0FCF1;
+}
+
+.friendsTable{
+	float:left;
+}
+#friendsTableLeft{
+	/* border:1px solid darkgray; */
+	width: 700px;
+	/* z-index:3; */
+}
+
+.friendsManagerList{
+	display:none; 
+	position: absolute; 
+	left: 790px;
+	width: 80px;
+	background: url(../img/menu_bg3.png);
+	background-color: #F0FCF1;
+}
+.friendsManagerList ul{
+	padding-left:0px;
+	list-style: none;
+}
+.friendsManagerList ul a{
+	color: white;
+}
+
+
+
+
+
+/* #friendsTableRight{
+	border:1px solid darkgray;
+	width: 300px;
+} */
+#friendsGroup{
+	width: 300px;
+	background: url(../img/menu_bg3.png);
+	background-color: #F0FCF1;
+}
+
+.groupFriends ul,#moveToGroupModal ul li{
+	padding-left:0px;
+	list-style: none;
+	margin-bottom:0px;
+	overflow: auto;
+}
+

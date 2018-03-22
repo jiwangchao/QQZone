@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangchao.ssm.mapper.MessageBoardMapper">
+	
+	<!-- 添加一条留言 -->
+	<insert id="sendLeaveMessage" parameterType="com.wangchao.ssm.pojo.MessageBoard">
+		insert into messageboard(leaveId,masterId,messageContent,messageTime)
+		   values(#{leaveId},#{masterId},#{messageContent},#{messageTime});
+	</insert>
+	<!-- 查看留言板 -->
+	<select id="queryMyMessageBoard" resultType="com.wangchao.ssm.pojo.MessageBoard">
+		select messageId,leaveId,masterId,messageContent,messageTime,u.userName
+		from messageboard m,`user` u
+		where m.masterId=#{userId}
+			and m.leaveId=u.userId
+	</select>
+	<!-- 查询留言板总记录数 -->
+	<select id="getMessageCounts" resultType="java.lang.Integer">
+		select count(*)
+		from messageboard m
+		where m.masterId=#{userId}
+	</select>
+</mapper>

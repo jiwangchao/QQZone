@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangchao.ssm.mapper.GroupMapper">
+	
+	<sql id="query_group_base">
+		gId,gNo,gName
+	</sql>
+	
+	<select id="findMyGroup" parameterType="int"
+		resultType="com.wangchao.ssm.pojo.Group">
+		select 
+		<include refid="query_group_base" />
+		from friendgroup g
+		where g.userId=#{userId}
+	
+	</select>
+	<!-- 添加分组 -->
+	<insert id="addOneGroup" parameterType="com.wangchao.ssm.pojo.Group">
+		insert into friendgroup(userId,gNo,gName)
+			values(#{userId},#{gNo},#{gName})
+	</insert>
+	<!-- 重命名分组 -->
+	<update id="updateGroupName" parameterType="com.wangchao.ssm.pojo.Group">
+		update friendgroup f
+		set f.gName=#{gName}
+		where f.gId=#{gId} and f.userId=#{userId}
+	</update>
+	
+</mapper>

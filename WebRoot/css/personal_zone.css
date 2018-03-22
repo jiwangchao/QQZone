@@ -1,0 +1,122 @@
+body,html {
+	margin: 0;
+	background: url(../img/bg1.png) ;/*no-repeat*/
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-position: center center;
+	font-family: arial, 微软雅黑;
+}
+#nav{
+	border: 1px solid #262626; 
+	height: 41px;
+	/*background-color: coral;*/
+	padding-left: 200px;
+}
+#QQlogo{
+	float: left;
+	width: 90px;
+	height: 41px;
+	background: url(../img/icon.png) no-repeat ;
+	background-position: -0px -0px;
+}
+#menu {
+	float: left;
+	list-style: none;
+	line-height: 40px;
+}
+
+#menu li {
+	float: left;
+	/*background-color: coral;*/
+	padding: 0px 10px;
+	cursor: pointer;
+}
+#menu li a{
+	text-decoration: none;
+	color: white;
+}
+#menu li.on {
+	background-color: #555555;  
+}
+.onselect{
+	background-color: #555555;  
+}
+#logout{
+	float: left;
+	line-height: 40px;
+	margin-left: 150px;
+}
+#logout span{
+	margin-right: 30px;
+	color: white;
+}
+#logout span a{
+	text-decoration: none;
+	color: white;
+}
+#center_nav{
+	background: url(../img/top.jpg) no-repeat ;
+	width: 1349px;
+	height: 250px;
+	/*width: 100%;
+	height: 100%;*/
+	/*background-size: cover;*/
+	background-position: -80px 0;
+}
+#person_title{
+	position: absolute;
+	left: 200px;
+	color: white;
+}
+#person_pic{
+	position: absolute;
+	top: 188px;   /*162*/
+	left: 200px;
+	
+}
+#person_pic img{
+	width: 128px;
+	height: 128px;
+}
+#person_nickname{
+	position: absolute;
+	top: 258px;
+	left: 335px;
+	color: white;
+	height: 20px;
+	line-height: 22px;
+}
+#nickname_body{
+	float: left;
+	font-size: 24px;
+}
+#yellow_diamond{
+	float: left;
+	width: 98px;
+	height: 22px;
+	background: url(../img/icon.png);
+	background-position: -10px -205px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+#body_menu{
+	background: url(../img/menu_bg2.png);
+	height: 50px;
+	line-height: 50px;
+	padding-left: 340px;
+	border: 1px solid ;
+}
+#body_menu ul li{
+	float: left;
+	margin-right: 40px;
+	list-style: none;
+}
+#body_menu ul li a{
+	color: white;
+	cursor: pointer;
+}
+#body_content{
+	width: 900px;
+	padding-left:350px;
+}

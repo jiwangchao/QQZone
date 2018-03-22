@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangchao.ssm.mapper.DiaryMapper">
+	<!-- 插入日志表一条记录，该表用于查询日志list -->
+	<insert id="addDiary" parameterType="com.wangchao.ssm.pojo.Diary">
+		insert into diary(userId,diaryTime,diaryContentId,diaryContentTitle)
+		values(#{userId},#{diaryTime},#{diaryContentId},#{diaryContentTitle})
+	</insert>
+	<!-- 插入日志内容表一条日志记录，该表用于查找日志详细内容 -->
+	<insert id="addDiaryContent" parameterType="com.wangchao.ssm.pojo.DiaryContent">
+		insert into diarycontent(diaryContentId,diaryContentText,diaryContentTitle,diaryContentTime,diaryBg)
+		values(#{diaryContentId},#{diaryContentText},#{diaryContentTitle},#{diaryContentTime},#{diaryBg})
+	</insert>
+	
+	<!-- 根据diaryContentId修改日志表和日志内容表 -->
+	<update id="updateDiaryContentByContentId" parameterType="com.wangchao.ssm.pojo.DiaryContent">
+		update diarycontent d
+		set diaryContentTitle=#{diaryContentTitle},
+			diaryContentText=#{diaryContentText},
+			diaryContentTime=#{diaryContentTime},
+			diaryBg=#{diaryBg}
+		where d.diaryContentId=#{diaryContentId}
+	</update>
+	<update id="updateDiaryByContentId" parameterType="com.wangchao.ssm.pojo.Diary">
+		update diary d
+		set diaryContentTitle=#{diaryContentTitle},
+			diaryTime=#{diaryTime}
+		where d.diaryContentId=#{diaryContentId}
+			
+	</update>
+	
+	<!-- 查找我的日历list -->
+	<select id="queryMyDiaryList" resultType="com.wangchao.ssm.pojo.Diary">
+		select diaryId,diaryTime,diaryContentId,diaryContentTitle
+		from diary d
+		where d.userId=#{userId}
+		order by d.diaryTime desc
+	</select>
+	<!-- 根据手动生成的日志id查找日志内容 -->
+	<select id="queryDiaryByDiaryContentId" resultType="com.wangchao.ssm.pojo.DiaryContent">
+		select d.diaryContentId,diaryContentText,d.diaryContentTitle,diaryContentTime,diaryBg,di.userId
+		from diarycontent d,diary di
+		where d.diaryContentId=#{diaryContentId}
+				and d.diaryContentId = di.diaryContentId
+	</select>
+	
+	<!-- 根据手动生成的日志Id删除日志 -->
+	<delete id="deleteDiaryByDiaryContentId" parameterType="com.wangchao.ssm.pojo.Diary">
+		delete from diary
+		where diaryContentId=#{diaryContentId}
+			and userId=#{userId}
+	</delete>
+	<delete id="deleteDiaryContentByDiaryContentId" parameterType="com.wangchao.ssm.pojo.DiaryContent">
+		delete from diarycontent 
+		where diaryContentId=#{diaryContentId}
+	</delete>
+</mapper>

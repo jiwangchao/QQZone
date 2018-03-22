@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangchao.ssm.mapper.CommentMapper">
+
+	<!-- 评论 -->
+	<insert id="addComment" parameterType="com.wangchao.ssm.pojo.Comment">
+		insert into comments(cUserId,aUserId,commentType,commentTypeId,commentContent,commentTime)
+		values(#{cUserId},#{aUserId},#{commentType},#{commentTypeId},#{commentContent},#{commentTime});
+	</insert>
+	<!-- 查看评论 -->
+	<select id="queryCommentList" parameterType="com.wangchao.ssm.pojo.Comment" 
+			resultType="com.wangchao.ssm.pojo.Comment">
+		select commentId,cUserId,aUserId,commentType,commentTypeId,commentContent,DATE_FORMAT(commentTime,"%Y-%m-%d %T") commentTime,u.userName
+		from comments com,`user` u
+		where com.aUserId=#{aUserId}
+			and com.commentType=#{commentType}
+			and com.commentTypeId=#{commentTypeId}
+			and u.userId=com.cUserId
+	</select>
+	
+	<!-- 删除评论或回复 -->
+	<delete id="deleteComment">
+		delete from comments
+		where commentId=#{commentId}
+	</delete>
+</mapper>

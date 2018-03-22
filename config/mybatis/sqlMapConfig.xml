@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 全局setting配置，根据需要再加，二级缓存，延迟加载等 -->
+	<!-- 还需要配置别名 ,批量扫描别名-->
+	<typeAliases>
+		<package name="com.wangchao.pojo"/>
+	</typeAliases>
+	<!-- 配置mapper，由于使用spring和mybatis的整合包进行mapper扫描(applicationContext-dao.xml)
+		这里不需要配置,必须遵循，mapper.xml和mapper.java文件同名且在一个目录
+	-->
+	<!-- <mappers></mappers> -->
+	
+</configuration>

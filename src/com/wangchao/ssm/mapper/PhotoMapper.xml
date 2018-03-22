@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangchao.ssm.mapper.PhotoMapper">
+	
+	<!-- <sql id="base_photo_query">
+		photoId,userId,photoDirId,photoUrl,uploadTime
+	</sql> -->
+	
+	<!-- <sql id="base_photoDir_query">
+		photoDirId,userId,photoDirName,createTime
+	</sql> -->
+	
+	<!-- 查看相册集合 -->
+	<select id="queryMyPhotoDir" resultType="com.wangchao.ssm.pojo.PhotoDir">
+		select 
+		photoDirId,userId,photoDirName,createTime
+		from photoDir p
+		where p.userId=#{userId}
+	</select>	
+	
+	<!-- 保存图片路径到数据库 -->
+	<insert id="addPhotos">
+		insert into photo(userId,photoDirId,photoUrl,uploadTime,photoName) 
+		values(#{photo.userId},#{photo.photoDirId},#{photo.photoUrl},#{photo.uploadTime},#{photo.photoName})
+	</insert>
+
+	<!-- 查看指定相册的图片 -->
+	<select id="queryMyPhotoByDirId" resultType="com.wangchao.ssm.pojo.Photo" parameterType="com.wangchao.ssm.pojo.PhotoDir">
+		select 
+		photoId,userId,photoDirId,photoUrl,uploadTime,photoName
+		from photo p
+		where p.userId=#{userId}
+			and p.photoDirId=#{photoDirId}
+	</select>
+	
+	<insert id="addPhotoDir" parameterType="com.wangchao.ssm.pojo.PhotoDir" >
+		insert into photodir(userId,photoDirName,createTime)
+		 values(#{userId},#{photoDirName},#{createTime})
+	</insert>
+	<delete id="deleteMyPhotoDirByDirId" parameterType="java.lang.Integer">
+		delete from photodir 
+		where photoDirId=#{photoDirId}
+	</delete>
+	<update id="updateMyPhotoDirNameByDirId" parameterType="com.wangchao.ssm.pojo.PhotoDir">
+		update photodir 
+		set photoDirName=#{photoDirName}
+			where photoDirId=#{photoDirId}
+	</update>
+	
+	<!-- 批量删除我的照片 -->
+	<delete id="multiDelPhoto">
+		delete from photo 
+		where photoId in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<!-- 删除指定相册下所有照片 -->
+	<delete id="deleteMyPhotoByDirId">
+		delete from photo
+		where photoDirId =#{dirId}
+	</delete>
+</mapper>
